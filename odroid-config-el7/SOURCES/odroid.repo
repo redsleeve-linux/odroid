@@ -1,0 +1,7 @@
+[odroid]
+name=RedSleeve-7 - Odroid
+failovermethod=priority
+mirrorlist=http://ftp.redsleeve.org/pub/el$releasever-devel/el$releasever/odroid/mirrors
+#baseurl=http://ftp.redsleeve.org/pub/el$releasever-devel/el$releasever/odroid
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-RedSleeve-7-testing
