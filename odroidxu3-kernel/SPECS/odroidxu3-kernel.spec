@@ -1,11 +1,11 @@
-%global commit_linux_short a7893ff
-%global commit_linux_long  a7893ff53062b5f4e30e54e1724a5a7f6238a86a
+%global commit_linux_short db82d66
+%global commit_linux_long  db82d6682bdf73a2909a6f1a589930d6063c7663
 
 %define Arch arm
 %define extra_version 1
 
 Name:           odroidxu3-kernel
-Version:        3.10.104
+Version:        3.10.105
 Release:        %{extra_version}%{?dist}
 Summary:        Specific kernel for Odroid XU3
 
@@ -141,6 +141,9 @@ cp $(ls -1d /usr/share/%{name}-kernel/*-*/|tail -1)/boot/*.dtb /boot/
 #/lib/firmware/*
 
 %changelog
+* Fri Apr 21 2017 Jacco Ligthart <jacco@redsleeve.org> - 3.10.105-1.el7
+- updated to 3.10.105
+
 * Mon Oct 24 2016 Jacco Ligthart <jacco@redsleeve.org> - 3.10.104-1.el7
 - updated to 3.10.104 which includes a patch for the Dirty COW vulerability
 
