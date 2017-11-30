@@ -1,11 +1,11 @@
-%global commit_linux_long  ec8448dd6e243e2e860dda8d514034b34875db97
+%global commit_linux_long  be592282a08a2493692448e365e46b52ac715b3f
 %global commit_linux_short %(c=%{commit_linux_long}; echo ${c:0:7})
 
 %define Arch arm
 %define extra_version 1
 
 Name:           odroidxu4-kernel
-Version:        4.9.47
+Version:        4.9.61
 Release:        %{extra_version}%{?dist}
 Summary:        Specific kernel for Odroid XU4
 
@@ -143,5 +143,14 @@ cp $(ls -1d /usr/share/%{name}-kernel/*-*/|tail -1)/boot/*.dtb /boot/
 #/lib/firmware/*
 
 %changelog
+* Wed Nov 29 2017 Jacco Ligthart <jacco@redsleeve.org> - 4.9.61-1.el7
+- updated to 4.9.61
+
+* Thu Oct 26 2017 Jacco Ligthart <jacco@redsleeve.org> - 4.9.58-1.el7
+- updated to 4.9.58
+
+* Mon Oct 02 2017 Jacco Ligthart <jacco@redsleeve.org> - 4.9.51-1.el7
+- updated to 4.9.51
+
 * Fri Sep 08 2017 Jacco Ligthart <jacco@redsleeve.org>
 - initial release for XU3/XU4
