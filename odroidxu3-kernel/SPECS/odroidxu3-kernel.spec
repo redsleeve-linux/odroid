@@ -1,11 +1,11 @@
-%global commit_linux_short db82d66
-%global commit_linux_long  db82d6682bdf73a2909a6f1a589930d6063c7663
+%global commit_linux_long  cc7e08d3787f40a59cbcabfb5029086c8071578e
+%global commit_linux_short %(c=%{commit_linux_long}; echo ${c:0:7})
 
 %define Arch arm
 %define extra_version 1
 
 Name:           odroidxu3-kernel
-Version:        3.10.105
+Version:        3.10.106
 Release:        %{extra_version}%{?dist}
 Summary:        Specific kernel for Odroid XU3
 
@@ -141,6 +141,9 @@ cp $(ls -1d /usr/share/%{name}-kernel/*-*/|tail -1)/boot/*.dtb /boot/
 #/lib/firmware/*
 
 %changelog
+* Mon Oct 02 2017 Jacco Ligthart <jacco@redsleeve.org> - 3.10.106-1.el7
+- updated to 3.10.106
+
 * Fri Apr 21 2017 Jacco Ligthart <jacco@redsleeve.org> - 3.10.105-1.el7
 - updated to 3.10.105
 
