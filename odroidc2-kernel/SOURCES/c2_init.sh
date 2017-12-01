@@ -38,7 +38,11 @@ case $mode in
 			export X=`echo $modeline | cut -f1 -d","`
 			export Y=`echo $modeline | cut -f2 -d","`
 			;;
-		480*) 
+		480x800*)
+			export X=480
+			export Y=800
+			;;
+		480i*|480p*) 
 			export X=720 
 			export Y=480 
 			;;
@@ -135,6 +139,13 @@ esac
 common_display_setup
 
 # Console unblack
-echo 0 > /sys/class/graphics/fb0/blank
-echo 0 > /sys/class/graphics/fb1/blank
-
+case $mode in
+	*cvbs*|480i*|576i*|1080i*)
+		echo 0 > /sys/class/graphics/fb0/blank
+		echo 1 > /sys/class/graphics/fb1/blank
+		;;
+ 	*)
+		echo 0 > /sys/class/graphics/fb0/blank
+ 		echo 0 > /sys/class/graphics/fb1/blank
+		;;
+esac

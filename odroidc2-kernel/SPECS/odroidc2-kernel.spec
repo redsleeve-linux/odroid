@@ -1,8 +1,8 @@
-%global commit_linux_short 8186343
-%global commit_linux_long  8186343c319a1427408b084a67c7da09d4d20235
+%global commit_linux_long  f966ebfc0e8dc88c7931b4640b8a1b4bc2e13faa
+%global commit_linux_short %(c=%{commit_linux_long}; echo ${c:0:7})                                                                                                                                                
 
 %define Arch arm64
-%define extra_version 4
+%define extra_version 5
 %define _binaries_in_noarch_packages_terminate_build 0
 %define debug_package %{nil}
 
@@ -115,7 +115,7 @@ ln -s $DevelDir %{buildroot}/lib/modules/%{version}-%{release}/build
 /lib/modules/%{version}-%{release}
 /usr/share/%{name}-kernel/%{version}-%{release}
 /usr/share/%{name}-kernel/%{version}-%{release}/boot
-/usr/share/%{name}-kernel/%{version}-%{release}/boot/*.dtb
+#/usr/share/%{name}-kernel/%{version}-%{release}/boot/*.dtb
 %attr(0755,root,root) /boot/Image-%{version}-%{release}
 %doc /boot/COPYING.linux
 %attr(0755,root,root) /usr/lib/dracut/modules.d/99c2_init/
@@ -151,6 +151,9 @@ cp $(ls -1d /usr/share/%{name}-kernel/*-*/|tail -1)/boot/*.dtb /boot/
 #/lib/firmware/*
 
 %changelog
+* Mon Nov 27 2017 Jacco Ligthart <jacco@redsleeve.org> - 3.14.79-5
+- updated to latest version on git. kernel version is the same though
+
 * Fri Oct 14 2016 Jacco Ligthart <jacco@redsleeve.org> - 3.14.79-4
 - changed to noarch, so it'll also install on armv7 or armv5 systems
 
