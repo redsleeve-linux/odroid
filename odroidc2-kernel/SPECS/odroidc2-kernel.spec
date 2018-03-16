@@ -1,8 +1,8 @@
-%global commit_linux_long  f966ebfc0e8dc88c7931b4640b8a1b4bc2e13faa
+%global commit_linux_long  c3e4c730feb1750940971cae9ca1da3ca50f1d56
 %global commit_linux_short %(c=%{commit_linux_long}; echo ${c:0:7})                                                                                                                                                
 
 %define Arch arm64
-%define extra_version 5
+%define extra_version 6
 %define _binaries_in_noarch_packages_terminate_build 0
 %define debug_package %{nil}
 
@@ -118,7 +118,7 @@ ln -s $DevelDir %{buildroot}/lib/modules/%{version}-%{release}/build
 #/usr/share/%{name}-kernel/%{version}-%{release}/boot/*.dtb
 %attr(0755,root,root) /boot/Image-%{version}-%{release}
 %doc /boot/COPYING.linux
-%attr(0755,root,root) /usr/lib/dracut/modules.d/99c2_init/
+%config /usr/lib/dracut/modules.d/99c2_init/
 
 %post
 cp -a /boot/Image-%{version}-%{release} /boot/Image
@@ -151,6 +151,10 @@ cp $(ls -1d /usr/share/%{name}-kernel/*-*/|tail -1)/boot/*.dtb /boot/
 #/lib/firmware/*
 
 %changelog
+* Fri Mar 16 2018 Jacco Ligthart <jacco@redsleeve.org> - 3.14.79-6
+- updated to latest version on git. kernel version is the same though
+- changed 99c2_init to a %config file. hopefully it'll install now
+
 * Mon Nov 27 2017 Jacco Ligthart <jacco@redsleeve.org> - 3.14.79-5
 - updated to latest version on git. kernel version is the same though
 
