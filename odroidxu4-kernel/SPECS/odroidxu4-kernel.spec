@@ -1,11 +1,11 @@
-%global commit_linux_long  be592282a08a2493692448e365e46b52ac715b3f
+%global commit_linux_long  ee97e1f0efa0454346db6715a93112d5f3e5f7cc
 %global commit_linux_short %(c=%{commit_linux_long}; echo ${c:0:7})
 
 %define Arch arm
 %define extra_version 1
 
 Name:           odroidxu4-kernel
-Version:        4.9.61
+Version:        4.14.50
 Release:        %{extra_version}%{?dist}
 Summary:        Specific kernel for Odroid XU4
 
@@ -16,11 +16,11 @@ Source0:        https://github.com/hardkernel/linux/tarball/%{commit_linux_long}
 Group:          System Environment/Kernel
 Provides:       kernel = %{version}-%{release}
 Requires:       dracut, uboot-tools, coreutils, linux-firmware
-BuildRequires:	hostname, bc
+BuildRequires:	hostname, bc, openssl-devel
 
 # Compile with SELinux but disable per default
-Patch0:		odroidxu3_selinux_config.patch
-Patch1:		rtl8723du_CFLAGS.patch
+Patch0:		odroidxu4_selinux_config.patch
+#Patch1:		rtl8723du_CFLAGS.patch
 
 %description
 Specific kernel for Odroid XU4
@@ -53,7 +53,7 @@ against the kernel package.
 %prep
 %setup -q -n hardkernel-linux-%{commit_linux_short}
 %patch0 -p1
-%patch1 -p1
+#%patch1 -p1
 perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = -%{release}/" Makefile
 
 %build
@@ -143,6 +143,13 @@ cp $(ls -1d /usr/share/%{name}-kernel/*-*/|tail -1)/boot/*.dtb /boot/
 #/lib/firmware/*
 
 %changelog
+* Sat Jun 23 2018 Jacco Ligthart <jacco@redsleeve.org> - 4.14.50-1.el7
+- updated to 4.14.50
+- added openssl-devel to the build requirements
+
+* Sat Dec 16 2017 Jacco Ligthart <jacco@redsleeve.org> - 4.14.5-1.el7
+- updated to 4.14.5
+
 * Wed Nov 29 2017 Jacco Ligthart <jacco@redsleeve.org> - 4.9.61-1.el7
 - updated to 4.9.61
 
