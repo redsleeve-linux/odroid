@@ -1,11 +1,11 @@
-%global commit_linux_long  ee97e1f0efa0454346db6715a93112d5f3e5f7cc
+%global commit_linux_long  100943e3835a57de7e60d85205ff8c94dc374348
 %global commit_linux_short %(c=%{commit_linux_long}; echo ${c:0:7})
 
 %define Arch arm
 %define extra_version 1
 
 Name:           odroidxu4-kernel
-Version:        4.14.50
+Version:        4.14.102
 Release:        %{extra_version}%{?dist}
 Summary:        Specific kernel for Odroid XU4
 
@@ -112,7 +112,7 @@ ln -T -s build %{buildroot}/lib/modules/%{version}-%{release}/source --force
 %attr(0755,root,root) /boot/zImage-%{version}-%{release}
 %doc /boot/COPYING.linux
 
-%post
+%posttrans
 cp /boot/zImage-%{version}-%{release} /boot/zImage
 cp /usr/share/%{name}-kernel/%{version}-%{release}/boot/*.dtb /boot/
 /usr/sbin/depmod -a %{version}-%{release}
@@ -128,9 +128,9 @@ rm -f /boot/initrd-%{version}-%{release}
 rm -f /boot/uInitrd-%{version}-%{release}
 
 %postun
-cp $(ls -1 /boot/uInitrd-*-*|tail -1) /boot/uInitrd
-cp $(ls -1 /boot/zImage-*-*|tail -1) /boot/zImage
-cp $(ls -1d /usr/share/%{name}-kernel/*-*/|tail -1)/boot/*.dtb /boot/
+cp $(ls -1 /boot/uInitrd-*-*|sort -V|tail -1) /boot/uInitrd
+cp $(ls -1 /boot/zImage-*-*|sort -V|tail -1) /boot/zImage
+cp $(ls -1d /usr/share/%{name}-kernel/*-*/|sort -V|tail -1)/boot/*.dtb /boot/
 
 
 %files devel
@@ -143,6 +143,9 @@ cp $(ls -1d /usr/share/%{name}-kernel/*-*/|tail -1)/boot/*.dtb /boot/
 #/lib/firmware/*
 
 %changelog
+* Thu Mar 14 2019 Jacco Ligthart <jacco@redsleeve.org> - 4.14.102-1.el7
+- updated to 4.14.102
+
 * Sat Jun 23 2018 Jacco Ligthart <jacco@redsleeve.org> - 4.14.50-1.el7
 - updated to 4.14.50
 - added openssl-devel to the build requirements
