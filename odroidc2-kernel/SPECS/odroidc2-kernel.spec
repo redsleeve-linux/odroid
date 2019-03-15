@@ -1,13 +1,13 @@
-%global commit_linux_long  c3e4c730feb1750940971cae9ca1da3ca50f1d56
-%global commit_linux_short %(c=%{commit_linux_long}; echo ${c:0:7})                                                                                                                                                
+%global commit_linux_long  c0f44dfd390c6c87fb3a3568a270515876403f91
+%global commit_linux_short %(c=%{commit_linux_long}; echo ${c:0:7})
 
 %define Arch arm64
-%define extra_version 6
+%define extra_version 1
 %define _binaries_in_noarch_packages_terminate_build 0
 %define debug_package %{nil}
 
 Name:           odroidc2-kernel
-Version:        3.14.79
+Version:        3.16.63
 Release:        %{extra_version}%{?dist}
 BuildArch:	noarch
 Summary:        Specific kernel for Odroid C2
@@ -24,8 +24,7 @@ Group:          System Environment/Kernel
 Provides:       kernel = %{version}-%{release}
 Requires:       dracut, coreutils, linux-firmware
 Requires:       uboot-tools >= 2015.01
-BuildRequires:  hostname, bc, devtoolset-3-gcc
-#BuildRequires:
+BuildRequires:  hostname, bc
 
 %description
 Specific kernel for Odroid C2
@@ -60,11 +59,9 @@ against the kernel package.
 perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = -%{release}/" Makefile
 
 %build
-/bin/scl enable devtoolset-3 - <<EOF
 export KERNEL=kernel
 make odroidc2_defconfig
 make %{?_smp_mflags} Image dtbs modules
-EOF
 
 %install
 mkdir -p %{buildroot}/boot/
@@ -120,7 +117,7 @@ ln -s $DevelDir %{buildroot}/lib/modules/%{version}-%{release}/build
 %doc /boot/COPYING.linux
 %config /usr/lib/dracut/modules.d/99c2_init/
 
-%post
+%posttrans
 cp -a /boot/Image-%{version}-%{release} /boot/Image
 cp /usr/share/%{name}-kernel/%{version}-%{release}/boot/*.dtb /boot/
 /usr/sbin/depmod -a %{version}-%{release}
@@ -136,9 +133,9 @@ rm -f /boot/initrd-%{version}-%{release}
 rm -f /boot/uInitrd-%{version}-%{release}
 
 %postun
-cp $(ls -1 /boot/uInitrd-*-*|tail -1) /boot/uInitrd
-cp $(ls -1 /boot/Image-*-*|tail -1) /boot/Image
-cp $(ls -1d /usr/share/%{name}-kernel/*-*/|tail -1)/boot/*.dtb /boot/
+cp $(ls -1 /boot/uInitrd-*-*|sort -V|tail -1) /boot/uInitrd
+cp $(ls -1 /boot/Image-*-*|sort -V|tail -1) /boot/Image
+cp $(ls -1d /usr/share/%{name}-kernel/*-*/|sort -V|tail -1)/boot/*.dtb /boot/
 
 
 %files devel
@@ -151,6 +148,13 @@ cp $(ls -1d /usr/share/%{name}-kernel/*-*/|tail -1)/boot/*.dtb /boot/
 #/lib/firmware/*
 
 %changelog
+* Thu Mar 14 2019 Jacco Ligthart <jacco@redsleeve.org> - 3.16.63-1
+- updated to version 3.16.63
+
+* Sat Jun 23 2018 Jacco Ligthart <jacco@redsleeve.org> - 3.16.57-1
+- updated to version 3.16.57
+- no longer needed to build with gcc 4.9 from devtoolset3 
+
 * Fri Mar 16 2018 Jacco Ligthart <jacco@redsleeve.org> - 3.14.79-6
 - updated to latest version on git. kernel version is the same though
 - changed 99c2_init to a %config file. hopefully it'll install now
